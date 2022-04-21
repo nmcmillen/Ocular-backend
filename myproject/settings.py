@@ -31,6 +31,7 @@ CSRF_TRUSTED_ORIGINS = ['https://*.gitpod.io']
 # Application definition
 
 INSTALLED_APPS = [
+    'ocular.apps.OcularConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
