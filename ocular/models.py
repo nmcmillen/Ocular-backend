@@ -1,46 +1,46 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.conf import settings #from how to extend django user model article option 4
 
 # Create your models here.
-class User_Accounts(models.Model):
-    email = models.CharField(null=False, max_length=255)
-    password = models.CharField(null=False, max_length=255)
-    name = models.CharField(null=False, max_length=255)
-    avatar = models.CharField(null=False, max_length=255)
+# change models.Model blairs article option #4
+class User(AbstractUser):
+    avatar = models.ImageField()
     number_of_posts = models.IntegerField(null=False, default=0)
     number_of_followers = models.IntegerField(null=False, default=0)
     number_of_following = models.IntegerField(null=False, default=0)
 
+class Post_Categories(models.Model):
+    title = models.CharField(max_length=100)
+
 class Posts(models.Model):
-    photos = models.ForeignKey(Photos, on_delete=models.CASCADE)
-    comment = models.CharField(max_length=255)
-    category = models.IntegerField()
+    description = models.CharField(max_length=255)
+    category = models.ForeignKey(Post_Categories, on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now_add = True)
     updated_date = models.DateTimeField(auto_now_add = True)
-    created_by = models.ForeignKey(User_Accounts, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     number_of_likes = models.IntegerField(default=0)
 
 class Post_Reactions(models.Model):
     # not sure if cascade should be the default on delete
     post = models.ForeignKey(Posts, on_delete=models.CASCADE)
-    user = models.ForeignKey(User_Accounts, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 class User_Notifications(models.Model):
     # post is referencing an image/gallery so maybe name should be different?
     post = models.ForeignKey(Posts, on_delete=models.CASCADE)
     message = models.CharField(max_length=255)
-    user = models.ForeignKey(User_Accounts, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 #need a user_following?
 
 # this has both the follower's id and the user's id
 class User_Followers(models.Model):
-    follower = models.ForeignKey(User_Accounts, on_delete=models.CASCADE)
-    user = models.ForeignKey(User_Accounts, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="user", on_delete=models.CASCADE)
+    follower = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
-class Post_Categories(models.Model):
-    title = models.CharField(max_length=100)
 
 class Photos(models.Model):
     images = models.ImageField(null=False)
     post = models.ForeignKey(Posts, on_delete=models.CASCADE)
-    category = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    category = models.ForeignKey(Post_Categories, on_delete=models.CASCADE)

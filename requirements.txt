@@ -19,6 +19,7 @@ decorator==5.1.1
 defusedxml==0.7.1
 distlib==0.3.4
 Django==4.0.4
+djangorestframework==3.13.1
 docutils==0.18.1
 entrypoints==0.4
 executing==0.8.3
@@ -60,6 +61,7 @@ pbr==5.8.1
 pep8==1.7.1
 pexpect==4.8.0
 pickleshare==0.7.5
+Pillow==9.1.0
 pipenv==2022.1.8
 pkginfo==1.8.2
 platformdirs==2.5.1
@@ -78,6 +80,7 @@ pylint==2.12.2
 pyparsing==3.0.7
 pyrsistent==0.18.1
 python-dateutil==2.8.2
+pytz==2022.1
 PyYAML==6.0
 pyzmq==22.3.0
 readme-renderer==33.0
