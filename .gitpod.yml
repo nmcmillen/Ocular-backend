@@ -1,0 +1,17 @@
+tasks:
+  - init: >
+      docker compose pull
+  - name: finish
+    init: |
+      gp await-port 7000
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+      python manage.py migrate
+  - command: |
+      docker compose up -d
+
+vscode:
+  extensions:
+    - ms-python.python
+    - formulahendry.code-runner
+    - ms-toolsai.jupyter-keymap

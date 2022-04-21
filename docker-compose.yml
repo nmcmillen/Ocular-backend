@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:14
+    ports:
+      - 5432:5432
+    environment:
+      - "POSTGRES_PASSWORD=postgres"
+    networks:
+      - backend
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 7000:80
+    environment:
+      - "PGADMIN_DEFAULT_EMAIL=bootcamp@awesomeinc.org"
+      - "PGADMIN_DEFAULT_PASSWORD=awesome"
+      - "PGADMIN_SERVER_JSON_FILE=/tmp/pgadmin.json"
+    volumes:
+      - "./pgadmin.json:/tmp/pgadmin.json"
+    networks:
+      - backend
+
+networks:
+  backend:
