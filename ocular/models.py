@@ -9,37 +9,46 @@ class User(AbstractUser):
     # number_of_followers = models.IntegerField(null=False, default=0)
     # number_of_following = models.IntegerField(null=False, default=0)
 
-class Tags(models.Model):
+class Tag(models.Model):
     hashtag = models.CharField(max_length=100)
 
-class Posts(models.Model):
+    def __str__(self):
+        return self.hashtag
+
+class Post(models.Model):
     description = models.CharField(max_length=255)
-    category = models.ForeignKey(Tags, on_delete=models.CASCADE)
+    hashtag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now_add = True)
     updated_date = models.DateTimeField(auto_now_add = True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     number_of_likes = models.IntegerField(default=0)
 
-class PostReactions(models.Model):
+    def __str__(self):
+        return f'{self.created_by} created: {self.description}'
+
+class PostReaction(models.Model):
     # not sure if cascade should be the default on delete
-    post = models.ForeignKey(Posts, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
-class UserNotifications(models.Model):
+class UserNotification(models.Model):
     # post is referencing an image/gallery so maybe name should be different?
-    post = models.ForeignKey(Posts, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     message = models.CharField(max_length=255)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 #need a user_following?
 
 # this has both the follower's id and the user's id
-class Followers(models.Model):
+class Follower(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="user", on_delete=models.CASCADE)
     follower = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.user} is following: {self.follower}'
 
-class Photos(models.Model):
+
+class Photo(models.Model):
     images = models.ImageField(null=False)
-    post = models.ForeignKey(Posts, on_delete=models.CASCADE)
-    category = models.ForeignKey(Tags, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    hashtag = models.ForeignKey(Tag, on_delete=models.CASCADE)
