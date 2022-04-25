@@ -24,6 +24,12 @@ from ocular.serializers import *
 router = routers.DefaultRouter()
 
 router.register(r'users', views.UserViewSet)
+router.register(r'tags', views.TagViewSet)
+router.register(r'posts', views.PostViewSet)
+router.register(r'postreactions', views.PostReactionViewSet)
+router.register(r'postmessages', views.PostMessageViewSet)
+router.register(r'followers', views.FollowerViewSet)
+router.register(r'photos', views.PhotoViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
