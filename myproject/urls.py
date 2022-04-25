@@ -15,7 +15,27 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from rest_framework import routers
+from ocular import views
+from ocular.serializers import *
+
+router = routers.DefaultRouter()
+
+router.register(r'users', views.UserViewSet)
+router.register(r'tags', views.TagViewSet)
+router.register(r'posts', views.PostViewSet)
+router.register(r'postreactions', views.PostReactionViewSet)
+router.register(r'postmessages', views.PostMessageViewSet)
+router.register(r'followers', views.FollowerViewSet)
+router.register(r'photos', views.PhotoViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls)
+    path('admin/', admin.site.urls),
+    path('api/', include(router.urls))
+    # path('', include('ocular.urls')) # new
 ]
+
+if settings.DEBUG: # new
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

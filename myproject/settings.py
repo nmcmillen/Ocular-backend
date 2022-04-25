@@ -31,14 +31,15 @@ CSRF_TRUSTED_ORIGINS = ['https://*.gitpod.io']
 # Application definition
 
 INSTALLED_APPS = [
-    'ocular.apps.OcularConfig',
+    # 'ocular.apps.OcularConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'rest_framework',
+    'ocular',
+    'rest_framework',
     # 'django_filters'
 ]
 
@@ -131,3 +132,22 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'ocular.User'
+
+# Absolute filesystem path to the directory for user-uploaded files
+MEDIA_URL = "/media/"
+
+# URL we can use in our templates for the files
+MEDIA_ROOT = BASE_DIR / "media"
+
+REST_FRAMEWORK = {
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #      'rest_framework.permissions.AllowAny',
+    # ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication'
+        # 'rest_framework.authentication.SessionAuthentication',
+    ],
+    # 'DEFAULT_FILTER_BACKENDS': [
+    #     'django_filters.rest_framework.DjangoFilterBackend'
+    # ]
+}

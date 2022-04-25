@@ -4,7 +4,8 @@ from django.conf import settings #from how to extend django user model article o
 
 # Create your models here.
 class User(AbstractUser):
-    avatar = models.ImageField()
+    avatar = models.ImageField(upload_to='images/')
+    bio = models.CharField(null=True, blank=True, max_length=150)
     # number_of_posts = models.IntegerField(null=False, default=0)
     # number_of_followers = models.IntegerField(null=False, default=0)
     # number_of_following = models.IntegerField(null=False, default=0)
@@ -31,7 +32,10 @@ class PostReaction(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
-class UserNotification(models.Model):
+    def __str__(self):
+        return f'{self.user} liked post {self.post.id}'
+
+class PostMessage(models.Model):
     # post is referencing an image/gallery so maybe name should be different?
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     message = models.CharField(max_length=255)
@@ -49,6 +53,6 @@ class Follower(models.Model):
 
 
 class Photo(models.Model):
-    images = models.ImageField(null=False)
+    images = models.ImageField(null=False, upload_to='images/')
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     hashtag = models.ForeignKey(Tag, on_delete=models.CASCADE)
