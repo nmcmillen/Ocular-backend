@@ -32,6 +32,9 @@ class PostReaction(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.user} liked post {self.post.id}'
+
 class PostMessage(models.Model):
     # post is referencing an image/gallery so maybe name should be different?
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
