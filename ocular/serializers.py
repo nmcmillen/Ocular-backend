@@ -1,5 +1,6 @@
 from .models import User, Tag, Post, PostReaction, PostMessage, Follower, Photo
 from rest_framework import serializers
+from django.utils.timezone import now
 
 ### IMPORTANT: May need to change gitpod link each time a new workspace is opened ###
 BASE_API_URL = 'https://8000-nmcmillen-ocularbackend-sm1tv8tjiev.ws-us42.gitpod.io'
@@ -21,23 +22,25 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = '__all__'
+        
+class PhotoSerializer(serializers.ModelSerializer):
+    images = serializers.SerializerMethodField('get_image_url')
+    class Meta:
+        model = Photo
+        fields = '__all__'
 
+    def get_image_url(self, obj):
+        if obj.images:
+            return BASE_API_URL + obj.images.url
 
 class PostSerializer(serializers.ModelSerializer):
-    # images = serializers.SerializerMethodField('get_images')
-    # photos = serializers.SerializerMethodField('get_image_url')
-    hashtag = serializers.StringRelatedField(many=True)
-    # photos = serializers.StringRelatedField(many=True) #returns "Photo Object (7)"
+    hashtag = serializers.StringRelatedField(many=True) #turns hashtag to readable string
+    photos = PhotoSerializer(read_only=True, many=True) #from Photo in models.py gets images related to post
     created_by = serializers.SlugRelatedField(
         read_only=True,
         slug_field='username'
     )
-
-    # **Not sure why this doesn't work**
-    # photos = serializers.SlugRelatedField(
-    #     read_only=True,
-    #     slug_field='images'
-    # )
+    # since_date = serializers.SerializerMethodField('days_since')
 
     class Meta:
         model = Post
@@ -48,13 +51,14 @@ class PostSerializer(serializers.ModelSerializer):
             'updated_date',
             'created_by',
             'number_of_likes',
+            # 'since_date',
             'photos'
         )
-
-    # def get_image_url(self, obj):
-    #     if obj.photos:
-    #         return BASE_API_URL + obj.photos.url
-
+    
+    # https://www.django-rest-framework.org/api-guide/fields/#serializermethodfield
+    # def days_since(self, obj):
+    #     if obj.since_date:
+    #         return (now() - obj.created_date).days
 
 class PostReactionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -74,12 +78,3 @@ class FollowerSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 
-class PhotoSerializer(serializers.ModelSerializer):
-    images = serializers.SerializerMethodField('get_image_url')
-    class Meta:
-        model = Photo
-        fields = '__all__'
-
-    def get_image_url(self, obj):
-        if obj.images:
-            return BASE_API_URL + obj.images.url
