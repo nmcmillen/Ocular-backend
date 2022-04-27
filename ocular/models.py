@@ -7,7 +7,6 @@ class User(AbstractUser):
     avatar = models.ImageField(upload_to='images/', default='images/default-avatar.png')
     bio = models.CharField(null=True, blank=True, max_length=150)
     
-
 class Tag(models.Model):
     hashtag = models.CharField(unique=True, max_length=100)
 
