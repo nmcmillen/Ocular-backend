@@ -17,7 +17,7 @@ class Tag(models.Model):
 
 class Post(models.Model):
     description = models.CharField(null=True, blank=True, max_length=255)
-    hashtag = models.ManyToManyField(Tag)
+    hashtag = models.ManyToManyField(Tag, null=True, blank=True)
     # hashtag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now_add = True)
     updated_date = models.DateTimeField(auto_now_add = True)

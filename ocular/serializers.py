@@ -6,6 +6,7 @@ BASE_API_URL = 'https://8000-nmcmillen-ocularbackend-sm1tv8tjiev.ws-us42.gitpod.
 
 class UserSerializer(serializers.ModelSerializer):
     avatar = serializers.SerializerMethodField('get_image_url')
+    
     class Meta:
         model = User
         fields = '__all__'
@@ -23,6 +24,12 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
+    # images = PhotoListSerializer(read_only=True)
+    created_by = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='username'
+    )
+
     class Meta:
         model = Post
         fields = '__all__'
