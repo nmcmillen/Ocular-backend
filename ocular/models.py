@@ -17,8 +17,7 @@ class Tag(models.Model):
 
 class Post(models.Model):
     description = models.CharField(null=True, blank=True, max_length=255)
-    hashtag = models.ManyToManyField(Tag, null=True, blank=True)
-    # hashtag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    hashtag = models.ManyToManyField(Tag)
     created_date = models.DateTimeField(auto_now_add = True)
     updated_date = models.DateTimeField(auto_now_add = True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -55,5 +54,5 @@ class Follower(models.Model):
 
 class Photo(models.Model):
     images = models.ImageField(null=False, upload_to='images/')
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='photos')
     # hashtag = models.ForeignKey(Tag, on_delete=models.CASCADE)

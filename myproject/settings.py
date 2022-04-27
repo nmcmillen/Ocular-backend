@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ocular',
     'rest_framework',
-    # 'django_filters'
+    'django_filters'
 ]
 
 
@@ -148,9 +148,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication'
         # 'rest_framework.authentication.SessionAuthentication',
     ],
-    # 'DEFAULT_FILTER_BACKENDS': [
-    #     'django_filters.rest_framework.DjangoFilterBackend'
-    # ]
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ]
 }
 
 CORS_ALLOW_ALL_ORIGINS = True

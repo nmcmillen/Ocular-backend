@@ -24,15 +24,36 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    # images = PhotoListSerializer(read_only=True)
+    # images = serializers.SerializerMethodField('get_images')
+    # photos = serializers.SerializerMethodField('get_image_url')
+    hashtag = serializers.StringRelatedField(many=True)
+    # photos = serializers.StringRelatedField(many=True) #returns "Photo Object (7)"
     created_by = serializers.SlugRelatedField(
         read_only=True,
         slug_field='username'
     )
 
+    # **Not sure why this doesn't work**
+    # photos = serializers.SlugRelatedField(
+    #     read_only=True,
+    #     slug_field='images'
+    # )
+
     class Meta:
         model = Post
-        fields = '__all__'
+        fields = (
+            'description',
+            'hashtag',
+            'created_date',
+            'updated_date',
+            'created_by',
+            'number_of_likes',
+            'photos'
+        )
+
+    # def get_image_url(self, obj):
+    #     if obj.photos:
+    #         return BASE_API_URL + obj.photos.url
 
 
 class PostReactionSerializer(serializers.ModelSerializer):
