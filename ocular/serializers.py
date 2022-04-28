@@ -3,7 +3,7 @@ from rest_framework import serializers
 from django.utils.timezone import now
 
 ### IMPORTANT: May need to change gitpod link each time a new workspace is opened ###
-BASE_API_URL = 'https://8000-nmcmillen-ocularbackend-sm1tv8tjiev.ws-us42.gitpod.io'
+BASE_API_URL = 'https://8000-nmcmillen-ocularbackend-sm1tv8tjiev.ws-us43.gitpod.io'
 
 class UserSerializer(serializers.ModelSerializer):
     avatar = serializers.SerializerMethodField('get_image_url')
@@ -44,6 +44,7 @@ class PostSerializer(serializers.ModelSerializer):
     hashtag = serializers.StringRelatedField(many=True) #turns hashtag to readable string
     photos = PhotoSerializer(read_only=True, many=True) #from Photo in models.py gets images related to post
     created_by = UserSerializer(read_only=True)
+    created_date = serializers.SerializerMethodField('change_time_format')
 
     # since_date = serializers.SerializerMethodField('days_since')
 
@@ -59,6 +60,10 @@ class PostSerializer(serializers.ModelSerializer):
             # 'since_date',
             'photos'
         )
+
+    # https://www.geeksforgeeks.org/how-to-format-date-using-strftime-in-python/
+    def change_time_format(self,obj):
+        return obj.created_date.strftime("%b %d, %Y")
     
     # https://www.django-rest-framework.org/api-guide/fields/#serializermethodfield
     # def days_since(self, obj):
