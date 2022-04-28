@@ -38,7 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #app
     'ocular',
+
+    #third party additions
     'rest_framework',
     'django_filters'
 ]
