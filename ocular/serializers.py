@@ -1,11 +1,18 @@
 from .models import User, Tag, Post, PostReaction, PostMessage, Follower, Photo
 from rest_framework import serializers
 from django.utils.timezone import now
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer #new
 
 ### IMPORTANT: May need to change gitpod link each time a new workspace is opened ###
 BASE_API_URL = 'https://8000-nmcmillen-ocularbackend-sm1tv8tjiev.ws-us43.gitpod.io'
 
 class UserSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField( #new
+        required=True
+    )
+    username = serializers.CharField() #new
+    # password = serializers.CharField(min_length=8, write_only=True) #new
+
     avatar = serializers.SerializerMethodField('get_image_url')
     
     class Meta:
@@ -16,8 +23,19 @@ class UserSerializer(serializers.ModelSerializer):
             'username',
             'first_name',
             'last_name',
-            'bio'
+            'bio',
+            'email', #new
+            'password' #new
         )
+        extra_kwargs = {'password': {'write_only': True}} #new
+
+    def create(self, validated_data): #all below to return new
+        password = validated_data.pop('password', None)
+        instance = self.Meta.model(**validated_data)  # as long as the fields are the same, we can just use this
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance
 
     # changes the photo link for Django REST to be viewable when clicked
     def get_image_url(self, obj):

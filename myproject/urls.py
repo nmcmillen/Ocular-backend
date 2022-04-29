@@ -33,7 +33,9 @@ router.register(r'photos', views.PhotoViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+    path('', include('ocular.urls'))  # in josh's user auth example not sure if needed
+    # path('api/', include('authentication.urls')) #new
     # path('', include('ocular.urls')) # new
 ]
 
