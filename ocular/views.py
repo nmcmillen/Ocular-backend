@@ -56,7 +56,7 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     search_fields = ['created_by__username', 'hashtag__hashtag']
-    filterset_fields = ['created_by', 'hashtag']
+    filterset_fields = ['created_by', 'hashtag__hashtag']
 
 
 class PostReactionViewSet(viewsets.ModelViewSet):

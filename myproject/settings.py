@@ -150,8 +150,11 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 REST_FRAMEWORK = {
     ### CHANGE PERMISSION CLASSES TO SEE AUTHENTICATED OR NOT TO STILL VIEW DATA ON FRONTEND W/OUT USER SIGNED IN ###
+    # https://www.django-rest-framework.org/api-guide/permissions/#isauthenticatedorreadonly
     'DEFAULT_PERMISSION_CLASSES': [
-         'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly'
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        #  'rest_framework.permissions.IsAuthenticated',
         #  'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
