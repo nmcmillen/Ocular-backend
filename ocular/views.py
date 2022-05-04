@@ -80,15 +80,28 @@ class PostViewSet(viewsets.ModelViewSet):
         user_id = request.data.pop('created_by')
         user = User.objects.get(pk=int(user_id[0]))
 
-        uploaded_image = request.data.pop('image')
+        file = request.data['image']
+
+        request.data.pop('image')
         
-        print(uploaded_image)
+        # print(uploaded_image)
         # file = request.FILES.get('uploaded_image')
-        post = Post.objects.create(created_by=user, **request.data)
+        print(file.content_type)
+
+        if file.content_type == ('image/jpeg' or 'image/png'):
+            post = Post.objects.create(created_by=user, **request.data)
+            photo = Photo()
+            photo.post = post
+            photo.images.save(
+                file.name,
+                file,
+            )
+            photo.save()
+            print(file.name)
 
         # Take Photos out of request.data to create the photos.
-        photo = Photo.object.create(images=uploaded_image, post=post)
-        return HttpResponse('Created successfully')
+        # photo = Photo.object.create(images=uploaded_image, post=post)
+            return HttpResponse('Created successfully')
 
 
 class PostReactionViewSet(viewsets.ModelViewSet):
