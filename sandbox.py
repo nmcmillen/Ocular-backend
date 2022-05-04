@@ -64,3 +64,14 @@ class Photo(models.Model):
     #     read_only=True,
     #     slug_field='username'
     # )
+
+
+
+        file = request.data['image']
+        if file.content_type == 'image/jpeg':
+            photo = Photo()
+            photo.images.save(
+                file.name,
+                file,
+            )
+            photo.save()

@@ -7,10 +7,11 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer #new
 BASE_API_URL = 'https://8000-nmcmillen-ocularbackend-sm1tv8tjiev.ws-us43.gitpod.io'
 
 class UserSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField( #new
+
+    email = serializers.EmailField(
         required=True
     )
-    username = serializers.CharField() #new
+    username = serializers.CharField()
     # password = serializers.CharField(min_length=8, write_only=True) #new
 
     avatar = serializers.SerializerMethodField('get_image_url')
@@ -24,10 +25,10 @@ class UserSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'bio',
-            'email', #new
-            'password' #new
+            'email',
+            'password'
         )
-        extra_kwargs = {'password': {'write_only': True}} #new
+        extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data): #all below to return new
         password = validated_data.pop('password', None)

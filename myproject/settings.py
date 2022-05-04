@@ -176,7 +176,7 @@ SIMPLE_JWT = {
     'SIGNING_KEY': SECRET_KEY,
     'VERIFYING_KEY': None,
     'USER_ID_FIELD': 'id',
-    'USER_ID_CLAIM': 'user_id',
+    'USER_ID_CLAIM': 'user_id', #changing from user_id to username for frontend name return instead of id
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
