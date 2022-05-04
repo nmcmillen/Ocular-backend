@@ -76,19 +76,14 @@ class PostViewSet(viewsets.ModelViewSet):
     # @action(detail=False, methods=['post'], name='Create Post', url_path='create')
     def create(self, request):
         # Grab user id and lookup the user.
-        # self.object = self.get_object()
         user_id = request.data.pop('created_by')
         user = User.objects.get(pk=int(user_id[0]))
-
         file = request.data['image']
-
         request.data.pop('image')
-        
         # print(uploaded_image)
         # file = request.FILES.get('uploaded_image')
         print(file.content_type)
-
-        if file.content_type == ('image/jpeg' or 'image/png'):
+        if file.content_type == 'image/jpeg' or 'image/png':
             post = Post.objects.create(created_by=user, **request.data)
             photo = Photo()
             photo.post = post
