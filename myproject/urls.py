@@ -20,7 +20,10 @@ from django.conf.urls.static import static
 from rest_framework import routers
 from ocular import views
 from ocular.serializers import *
-
+from rest_framework_simplejwt.views import ( #new
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 router = routers.DefaultRouter()
 
 router.register(r'users', views.UserViewSet)
@@ -33,9 +36,13 @@ router.register(r'photos', views.PhotoViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls))
-    # path('', include('ocular.urls')) # new
+    path('api/', include(router.urls)),
+    path('', include('ocular.urls')),  # in josh's user auth example not sure if needed
+    # path('token/', MyObtainTokenPairView.as_view(), name='token_obtain_pair'), #new
+    # path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh') #new
+    # path('api/', include('authentication.urls'))
+    # path('', include('ocular.urls'))
 ]
 
-if settings.DEBUG: # new
+if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
