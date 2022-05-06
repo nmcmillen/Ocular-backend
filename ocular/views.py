@@ -8,7 +8,6 @@ from .serializers import (
     PostMessageSerializer,
     FollowerSerializer,
     PhotoSerializer
-    # MyObtainTokenPairSerializer
 )
 from rest_framework import viewsets, permissions, filters
 from rest_framework.filters import SearchFilter, OrderingFilter
@@ -75,7 +74,6 @@ class PostViewSet(viewsets.ModelViewSet):
     search_fields = ['created_by__username', 'hashtag__hashtag']
     filterset_fields = ['created_by', 'hashtag__hashtag']
 
-    # @action(detail=False, methods=['post'], name='Create Post', url_path='create')
     def create(self, request):
         # Grab user id and lookup the user.
         user_id = request.data.pop('created_by')
@@ -85,9 +83,13 @@ class PostViewSet(viewsets.ModelViewSet):
         request.data.pop('image')
         # print(uploaded_image)
         # file = request.FILES.get('uploaded_image')
+        description = request.data.pop('description')
+        # print(request.data['description'])
+        # print(type(request.data['description']))
+        # return
         print(file.content_type)
         if file.content_type == 'image/jpeg' or 'image/png':
-            post = Post.objects.create(created_by=user, **request.data)
+            post = Post.objects.create(created_by=user, description=description, **request.data)
             photo = Photo()
             photo.post = post
             photo.images.save(
