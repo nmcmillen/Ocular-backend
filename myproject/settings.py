@@ -188,6 +188,9 @@ CORS_ALLOWED_ORIGINS = [
     'https://*.gitpod.io'
 ]
 
+DATA_UPLOAD_MAX_NUMBER_FIELDS = None
+# APPEND_SLASH=False
+
 # CORS_ALLOW_METHODS = [
 #     "DELETE",
 #     "GET",

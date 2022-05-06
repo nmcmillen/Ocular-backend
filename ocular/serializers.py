@@ -4,7 +4,7 @@ from django.utils.timezone import now
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer #new
 
 ### IMPORTANT: May need to change gitpod link each time a new workspace is opened ###
-BASE_API_URL = 'https://8000-nmcmillen-ocularbackend-sm1tv8tjiev.ws-us43.gitpod.io'
+BASE_API_URL = 'https://8000-nmcmillen-ocularbackend-sm1tv8tjiev.ws-us44.gitpod.io'
 
 class UserSerializer(serializers.ModelSerializer):
 
