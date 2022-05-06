@@ -6,8 +6,10 @@ from django.conf import settings #from how to extend django user model article o
 class User(AbstractUser):
     avatar = models.ImageField(upload_to='images/', default='images/default-avatar.png')
     bio = models.CharField(null=True, blank=True, max_length=150)
-    
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} - {self.email}"
+    
 class Tag(models.Model):
     hashtag = models.CharField(unique=True, max_length=100)
 
@@ -17,8 +19,7 @@ class Tag(models.Model):
 
 class Post(models.Model):
     description = models.CharField(null=True, blank=True, max_length=255)
-    hashtag = models.ManyToManyField(Tag, null=True, blank=True)
-    # hashtag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    hashtag = models.ManyToManyField(Tag)
     created_date = models.DateTimeField(auto_now_add = True)
     updated_date = models.DateTimeField(auto_now_add = True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -55,5 +56,5 @@ class Follower(models.Model):
 
 class Photo(models.Model):
     images = models.ImageField(null=False, upload_to='images/')
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='photos')
     # hashtag = models.ForeignKey(Tag, on_delete=models.CASCADE)

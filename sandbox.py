@@ -57,3 +57,21 @@ class Photo(models.Model):
     images = models.ImageField(null=False, upload_to='images/')
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     # hashtag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+
+
+### SLUG FIELD TO CHANGE NAME ###
+    # created_by = serializers.SlugRelatedField(
+    #     read_only=True,
+    #     slug_field='username'
+    # )
+
+
+
+        file = request.data['image']
+        if file.content_type == 'image/jpeg':
+            photo = Photo()
+            photo.images.save(
+                file.name,
+                file,
+            )
+            photo.save()
