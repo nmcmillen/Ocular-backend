@@ -70,6 +70,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = (
+            'id',
             'description',
             'hashtag',
             'created_date',
