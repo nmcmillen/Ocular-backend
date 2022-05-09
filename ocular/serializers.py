@@ -6,6 +6,15 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer #new
 ### IMPORTANT: May need to change gitpod link each time a new workspace is opened ###
 BASE_API_URL = 'https://8000-nmcmillen-ocularbackend-sm1tv8tjiev.ws-us44.gitpod.io'
 
+class BaseURLImage(serializers.ImageField):
+     def to_representation(self, value):
+         if value:
+            return BASE_API_URL + value.url
+
+
+#create new baseimageurl class
+#inherits from the image field
+
 class UserSerializer(serializers.ModelSerializer):
 
     email = serializers.EmailField(
@@ -14,7 +23,10 @@ class UserSerializer(serializers.ModelSerializer):
     username = serializers.CharField()
     # password = serializers.CharField(min_length=8, write_only=True) #new
 
-    avatar = serializers.SerializerMethodField('get_image_url')
+    # avatar = BaseURLImage
+    # avatar_url = serializers.SerializerMethodField('get_image_url')
+    # avatar = serializers.ImageField()
+    avatar = BaseURLImage()
     
     class Meta:
         model = User
@@ -44,6 +56,7 @@ class UserSerializer(serializers.ModelSerializer):
             return BASE_API_URL + obj.avatar.url
 
 
+
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
@@ -70,6 +83,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = (
+            'id',
             'description',
             'hashtag',
             'created_date',

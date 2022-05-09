@@ -48,15 +48,34 @@ class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 ###### end new
+    # def patch(self, request):
+    #     m = User.objects.get(pk=1)
+    #     m.avatar = request.FILES['avatar']
+    #     m.save()
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
+    queryset = User.objects.order_by('username')
     serializer_class = UserSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     search_fields = ['first_name', 'last_name', 'username']
     # turned this on for view name on frontend when signed in
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly] #new changed to view user data to build profile page
+
+    # def partial_update(self, request):
+    #     file = request.data['avatar']
+    #     request.data.pop('avatar')
+    #     print('content', file.content_type)
+    #     if file.content_type == 'image/jpeg' or 'image/png':
+    #         # post = Post.objects.create(created_by=user, description=description, **request.data)
+    #         photo = User()
+    #         photo.avatar.save(
+    #             file.name,
+    #             file,
+    #         )
+    #         photo.save()
+    #         print(file.name)
+    #         return Response(file.name, status=status.HTTP_200_OK)
 
 
 class TagViewSet(viewsets.ModelViewSet):
@@ -77,13 +96,13 @@ class PostViewSet(viewsets.ModelViewSet):
     def create(self, request):
         # Grab user id and lookup the user.
         user_id = request.data.pop('created_by')
-        # user = User.objects.get(user_id)
         user = User.objects.get(pk=int(user_id[0])) ##THIS WORKS JUST (user_id) does not
         file = request.data['image']
         request.data.pop('image')
+        description = request.data.pop('description')
+        # user = User.objects.get(user_id)
         # print(uploaded_image)
         # file = request.FILES.get('uploaded_image')
-        description = request.data.pop('description')
         # print(request.data['description'])
         # print(type(request.data['description']))
         # return
