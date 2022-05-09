@@ -48,6 +48,10 @@ class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 ###### end new
+    # def patch(self, request):
+    #     m = User.objects.get(pk=1)
+    #     m.avatar = request.FILES['avatar']
+    #     m.save()
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -57,6 +61,21 @@ class UserViewSet(viewsets.ModelViewSet):
     search_fields = ['first_name', 'last_name', 'username']
     # turned this on for view name on frontend when signed in
     permission_classes = [permissions.IsAuthenticatedOrReadOnly] #new changed to view user data to build profile page
+
+    # def partial_update(self, request):
+    #     file = request.data['avatar']
+    #     request.data.pop('avatar')
+    #     print('content', file.content_type)
+    #     if file.content_type == 'image/jpeg' or 'image/png':
+    #         # post = Post.objects.create(created_by=user, description=description, **request.data)
+    #         photo = User()
+    #         photo.avatar.save(
+    #             file.name,
+    #             file,
+    #         )
+    #         photo.save()
+    #         print(file.name)
+    #         return Response(file.name, status=status.HTTP_200_OK)
 
 
 class TagViewSet(viewsets.ModelViewSet):
