@@ -47,11 +47,9 @@ class UserDetail(generics.RetrieveAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = User.objects.all()
     serializer_class = UserSerializer
-###### end new
-
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
+    queryset = User.objects.order_by('id')
     serializer_class = UserSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     search_fields = ['first_name', 'last_name', 'username']
@@ -122,24 +120,3 @@ class FollowerViewSet(viewsets.ModelViewSet):
 class PhotoViewSet(viewsets.ModelViewSet):
     queryset = Photo.objects.order_by('-id')
     serializer_class = PhotoSerializer
-
-    # def create(self, request):
-    #     file = request.data['media']
-    #     if file.content_type == 'image/jpeg':
-    #         photo = Photo()
-    #         photo.images.save(
-    #             file.name,
-    #             file,
-    #         )
-    #         photo.save()
-    #     return Response(file.name, status=status.HTTP_200_OK)
-
-# class CreatePostViewSet(viewsets.ModelViewSet):
-#     queryset = Post.objects.all()
-#     serializer_class = PostSerializer
-
-# class ImageUpload(APIView):
-#     parser_classes = [MultiPartParser, FormParser]
-
-#     def post(self, request, format=None):
-#         print(request.data)
