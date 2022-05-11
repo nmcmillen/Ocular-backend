@@ -49,7 +49,7 @@ class UserDetail(generics.RetrieveAPIView):
     serializer_class = UserSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.order_by('username')
+    queryset = User.objects.order_by('id')
     serializer_class = UserSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     search_fields = ['first_name', 'last_name', 'username']
