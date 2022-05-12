@@ -14,8 +14,6 @@ from pathlib import Path
 from datetime import timedelta
 import environ
 import os
-import django_heroku
-django_heroku.settings(locals())
 
 
 env = environ.Env()
@@ -208,3 +206,7 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = None
 #     "POST",
 #     "PUT",
 # ]
+
+import django_heroku
+
+django_heroku.settings(locals())
