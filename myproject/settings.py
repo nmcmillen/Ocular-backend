@@ -14,8 +14,8 @@ from pathlib import Path
 from datetime import timedelta
 import environ
 import os
-# import django_heroku
-# django_heroku.settings(locals())
+import django_heroku
+django_heroku.settings(locals())
 
 
 env = environ.Env()
@@ -36,7 +36,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
