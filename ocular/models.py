@@ -3,9 +3,14 @@ from django.contrib.auth.models import AbstractUser
 from django.conf import settings #from how to extend django user model article option 4
 
 # Create your models here.
+def get_default():
+    return settings.MEDIA_ROOT + 'images/default-avatar.png'
+
 class User(AbstractUser):
-    avatar = models.ImageField(upload_to='images/', default='images/default-avatar.png')
+
+    avatar = models.ImageField(upload_to='images/', default=get_default)
     bio = models.CharField(null=True, blank=True, max_length=150)
+
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.email}"

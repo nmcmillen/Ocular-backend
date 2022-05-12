@@ -1,3 +1,10 @@
+settings.MEDIA_ROOT + '/images/default-avatar.png'
+
+
+
+
+
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings #from how to extend django user model article option 4

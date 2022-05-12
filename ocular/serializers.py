@@ -24,7 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
     )
     username = serializers.CharField()
     # password = serializers.CharField(min_length=8, write_only=True) #new
-    avatar = BaseURLImage()
+    avatar = BaseURLImage(required=False)
     
     class Meta:
         model = User

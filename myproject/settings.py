@@ -38,9 +38,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['https://*.gitpod.io',
-'https://*.herokuapp.com'
-]
+CSRF_TRUSTED_ORIGINS = ['https://*.gitpod.io', 'https://*.herokuapp.com']
 
 SITE_ID = 1
 
@@ -139,7 +137,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
 STATIC_URL = 'static/'
 
 # Default primary key field type
@@ -153,7 +150,8 @@ AUTH_USER_MODEL = 'ocular.User'
 MEDIA_URL = "/media/"
 
 # URL we can use in our templates for the files
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = f"{BASE_DIR}/media"
+
 
 REST_FRAMEWORK = {
     ### CHANGE PERMISSION CLASSES TO SEE AUTHENTICATED OR NOT TO STILL VIEW DATA ON FRONTEND W/OUT USER SIGNED IN ###
