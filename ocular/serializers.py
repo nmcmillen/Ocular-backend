@@ -68,6 +68,11 @@ class PhotoSerializer(serializers.ModelSerializer):
         if obj.images:
             return BASE_API_URL + obj.images.url
 
+class PostReactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostReaction
+        fields = '__all__'
+
 class PostSerializer(serializers.ModelSerializer):
     hashtag = serializers.StringRelatedField(many=True) #turns hashtag to readable string
     photos = PhotoSerializer(read_only=True, many=True) #from Photo in models.py gets images related to post
@@ -98,10 +103,7 @@ class PostSerializer(serializers.ModelSerializer):
     #     if obj.since_date:
     #         return (now() - obj.created_date).days
 
-class PostReactionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PostReaction
-        fields = '__all__'
+
 
 
 class PostMessageSerializer(serializers.ModelSerializer):
