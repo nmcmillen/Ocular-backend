@@ -15,11 +15,9 @@ from datetime import timedelta
 import environ
 import os
 
-
 env = environ.Env()
 # Set the project base directory
 # Take environment variables from .env file
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,9 +27,17 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # exception if SECRET_KEY not in os.environ
 SECRET_KEY = env('SECRET_KEY')
 
+# AWS S3 SETTINGS
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_URL = os.environ.get('AWS_URL')
+AWS_DEFAULT_ACL = None
+AWS_S3_REGION_NAME = 'us-east-1'
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
-
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -60,7 +66,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django.contrib.sites',
-    'django_filters'
+    'django_filters',
+    'storages'
 ]
 
 
@@ -134,23 +141,17 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.0/howto/static-files/
-STATIC_URL = 'static/'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'ocular.User'
 
-# Absolute filesystem path to the directory for user-uploaded files
-MEDIA_URL = "/media/"
+# # Absolute filesystem path to the directory for user-uploaded files
+# MEDIA_URL = "/media/"
 
-# URL we can use in our templates for the files
-MEDIA_ROOT = f"{BASE_DIR}/media"
+# # URL we can use in our templates for the files
+# MEDIA_ROOT = f"{BASE_DIR}/media"
 
 
 REST_FRAMEWORK = {
@@ -205,6 +206,13 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = None
 #     "PUT",
 # ]
 
-import django_heroku
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.0/howto/static-files/
+STATIC_URL = AWS_URL + '/static/'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
+MEDIA_URL = AWS_URL + '/media/'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+import django_heroku
 django_heroku.settings(locals())

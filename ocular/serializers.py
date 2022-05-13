@@ -8,10 +8,10 @@ BASE_API_URL = 'https://8000-nmcmillen-ocularbackend-sm1tv8tjiev.ws-us44.gitpod.
 
 # https://www.django-rest-framework.org/api-guide/fields/#custom-fields
 # modifies avatar return in UserSerializer since SerializerMethodField prevented image upload
-class BaseURLImage(serializers.ImageField):
-     def to_representation(self, value):
-         if value:
-            return BASE_API_URL + value.url
+# class BaseURLImage(serializers.ImageField):
+#      def to_representation(self, value):
+#          if value:
+#             return BASE_API_URL + value.url
 
 
 #create new baseimageurl class
@@ -24,7 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
     )
     username = serializers.CharField()
     # password = serializers.CharField(min_length=8, write_only=True) #new
-    avatar = BaseURLImage(required=False)
+    # avatar = BaseURLImage(required=False)
     
     class Meta:
         model = User
@@ -59,14 +59,9 @@ class TagSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class PhotoSerializer(serializers.ModelSerializer):
-    images = serializers.SerializerMethodField('get_image_url')
     class Meta:
         model = Photo
         fields = '__all__'
-
-    def get_image_url(self, obj):
-        if obj.images:
-            return BASE_API_URL + obj.images.url
 
 class PostReactionSerializer(serializers.ModelSerializer):
     class Meta:
