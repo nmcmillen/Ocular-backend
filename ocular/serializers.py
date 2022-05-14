@@ -4,7 +4,7 @@ from django.utils.timezone import now
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer #new
 
 ### IMPORTANT: May need to change gitpod link each time a new workspace is opened ###
-BASE_API_URL = 'https://8000-nmcmillen-ocularbackend-sm1tv8tjiev.ws-us44.gitpod.io'
+BASE_API_URL = 'https://8000-nmcmillen-ocularbackend-sm1tv8tjiev.ws-us45.gitpod.io'
 
 # https://www.django-rest-framework.org/api-guide/fields/#custom-fields
 # modifies avatar return in UserSerializer since SerializerMethodField prevented image upload
